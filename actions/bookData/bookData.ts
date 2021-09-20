@@ -10,6 +10,7 @@ import {
 } from '../../redux/slices/bookData'
 import _ from 'lodash'
 import { BookData } from '../../model/BookData'
+import { API_KEY } from '@env'
 
 
 export const retrieveBookData = (): StandardThunk => (dispatch) => {
@@ -17,20 +18,21 @@ export const retrieveBookData = (): StandardThunk => (dispatch) => {
    dispatch(setFailedRetrievingBookData(false))
 
    interface BooksSuccess {
-      books: BookData,
+      items: BookData[],
    }
 
-   axios.get<BooksSuccess>(baseUrl + '/assessment/students', {
-      headers: {
-         
+   axios.get<BooksSuccess>(baseUrl + 'volumes', {
+      params: {
+         key: API_KEY,
+         q: 'quilting'
       }
    })
       .then((response) => {
-         dispatch(setNewBookData(response.data.books))
+         dispatch(setNewBookData(response.data.items))
       })
       .catch((error: AxiosError) => {
          // TODO: error handling
-         console.log(error)
+         // console.log(error)
          dispatch(setFailedRetrievingBookData(true))
       })
       .then(() => {

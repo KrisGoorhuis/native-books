@@ -11,7 +11,7 @@ import {
 interface BookDataState {
    retrievingBookData       : boolean,
    failedRetrievingBookData : boolean
-   bookData                 : BookData | null,
+   bookData                 : BookData[] | null,
 }
 const initialBookDataState: BookDataState = {
    retrievingBookData       : false,
@@ -25,7 +25,7 @@ const bookDataSlice = createSlice({
    reducers: {
       setRetrievingBookData       : (state, { payload }: PayloadAction<boolean>) => { state.retrievingBookData = payload },
       setFailedRetrievingBookData : (state, { payload }: PayloadAction<boolean>) => { state.failedRetrievingBookData = payload },
-      setNewBookData : (state, { payload }: PayloadAction<BookData>) => { state.bookData = payload },
+      setNewBookData : (state, { payload }: PayloadAction<BookData[]>) => { state.bookData = payload },
    },
 })
 

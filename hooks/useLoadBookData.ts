@@ -6,17 +6,14 @@ import { retrieveBookData } from "../actions/bookData/bookData"
 import { State } from "../redux"
 
 
-const useLoadActiveListings = () => {
+const useLoadBookData = () => {
   const retrievingBookData = useSelector((state: State) => state.bookData.retrievingBookData)
   const failedRetrievingBookData = useSelector((state: State) => state.bookData.failedRetrievingBookData)
   const bookData = useSelector((state: State) => state.bookData.bookData)
 
   const dispatch = useDispatch()
 
-  console.log(bookData)
-  console.log(retrievingBookData)
-
-  if (!bookData && !retrievingBookData && !failedRetrievingBookData) {
+  if (!bookData && !retrievingBookData) {
     dispatch(retrieveBookData())
   }
 
@@ -27,4 +24,4 @@ const useLoadActiveListings = () => {
   }
 }
 
-export default useLoadActiveListings
+export default useLoadBookData
