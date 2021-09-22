@@ -6,7 +6,8 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { Provider } from 'react-redux';
 import store from './redux/index'
-
+import { ApplicationProvider } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -17,10 +18,12 @@ export default function App() {
   } else {
     return (
       <Provider store={store}>
-        <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-        </SafeAreaProvider>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </SafeAreaProvider>
+        </ApplicationProvider>
       </Provider>
     );
   }

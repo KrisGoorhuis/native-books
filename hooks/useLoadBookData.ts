@@ -13,7 +13,7 @@ const useLoadBookData = () => {
 
   const dispatch = useDispatch()
 
-  if (!bookData && !retrievingBookData) {
+  if (!bookData && !retrievingBookData && !failedRetrievingBookData) { // First is automatic - with !failed, all others require a trigger
     dispatch(retrieveBookData())
   }
 
