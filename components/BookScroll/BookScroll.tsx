@@ -24,17 +24,17 @@ export default function BookScroll() {
       // console.log(data.bookData.length)
    }
 
+   const myCallback = () => {
+      console.log("Success!")
+   }
 
    const slideOpen = () => {
-      console.log("sliding")
+      console.log("slidieiing")
       Animated.spring(xPos, {
          toValue: new Animated.Value(modalWidth),
          useNativeDriver: true,
 
-       }).start(({ finished }) => {
-         console.log("finished start")
-        setModalVisible(false)
-      })
+       }).start(() => myCallback)
    }
 
    const slideClosed = () => {
@@ -83,7 +83,7 @@ export default function BookScroll() {
          </ScrollView>
 
          <Animated.View
-            style={{translateX: xPos}}
+            style={styles.modalContainer}
          >
             {
                selectedBookData && modalVisible &&
@@ -104,4 +104,5 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       padding: 20,
    },
+
 });

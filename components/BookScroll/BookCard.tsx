@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Pressable, GestureResponderEvent, Modal } from 'react-native'
+import { View, GestureResponderEvent, TouchableHighlight } from 'react-native'
 import { BookData } from '../../model/BookData'
 import { StyleSheet, Image } from 'react-native';
 
@@ -16,24 +16,13 @@ const BookCard = (props: BookCardProps) => {
    return (
       <View style={styles.container}>
          {
-            <Pressable
-               style={({ pressed }) => [
-                  {
-                     opacity: pressed
-                        ? .7
-                        : 1
-                  },
-                  styles.card
-               ]}
-               pressRetentionOffset={10}
+            <TouchableHighlight
                onPress={(event: GestureResponderEvent) => props.onPress(props.data)}
             >
                {/* <Text style={{color: 'black'}}>{volumeInfo.title}</Text> */}
                <Image style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail }}></Image>
-            </Pressable>
+            </TouchableHighlight>
          }
-
-
       </View>
    )
 }
