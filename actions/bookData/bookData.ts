@@ -24,7 +24,7 @@ export const retrieveBookData = (): StandardThunk => (dispatch) => {
    axios.get<BooksSuccess>(baseUrl + 'volumes', {
       params: {
          key: API_KEY,
-         q: 'quilting'
+         q: 'landscape'
       }
    })
       .then((response) => {
