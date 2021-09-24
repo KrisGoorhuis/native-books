@@ -1,12 +1,12 @@
 import React from 'react'
-import { View, Modal, Animated } from 'react-native'
+import { View, Modal, Animated, Dimensions } from 'react-native'
 import BookCard from './BookCard'
 import useLoadBookData from '../../hooks/useLoadBookData'
 import { BookData } from '../../model/BookData'
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
-import { Spinner } from '@ui-kitten/components'
 import BookModal from './BookModal'
+
 
 export default function BookScroll() {
    const data = useLoadBookData()
@@ -14,10 +14,15 @@ export default function BookScroll() {
    const [modalVisible, setModalVisible] = React.useState<boolean>(false)
    const [xPos, setXPos] = React.useState<any>(new Animated.Value(0))
 
-   const modalWidth = 500
+   // const slideAnim = React.useRef(new Animated.Value(0)).current
+
+
+   // console.log("Dimensions")
+   // console.log(Dimensions.get('window'))
+   // console.log(Dimensions.get('screen'))
 
    if (!data) {
-      return <Spinner />
+      // return <Spinner />
    }
 
    if (data.bookData) {
@@ -29,40 +34,30 @@ export default function BookScroll() {
    }
 
    const slideOpen = () => {
-      console.log("slidieiing")
+      console.log("sliding")
       Animated.spring(xPos, {
-         toValue: new Animated.Value(modalWidth),
+         toValue: new Animated.Value(Dimensions.get('window').width),
          useNativeDriver: true,
-
-       }).start(() => myCallback)
+      }).start(() => myCallback)
    }
 
    const slideClosed = () => {
       Animated.spring(xPos, {
          toValue: new Animated.Value(0),
          useNativeDriver: true,
-       }).start(({ finished }) => {
-          console.log("finished")
+      }).start(({ finished }) => {
+         console.log("finished")
          setModalVisible(false)
-       })
+      })
    }
-
-
 
    const handleBookModalOpen = (data: BookData) => {
       setSelectedBookData(data)
       setModalVisible(true)
       slideOpen()
-      setTimeout(() => {
-         slideClosed()
-      }, 1000)
-
-
+      console.log("data.volumeInfo")
+      console.log(data.volumeInfo)
    }
-
-
-   const slideAnim = React.useRef(new Animated.Value(0)).current
-
 
 
    return (
@@ -83,7 +78,11 @@ export default function BookScroll() {
          </ScrollView>
 
          <Animated.View
-            style={styles.modalContainer}
+            style={[
+               styles.modalContainer,
+               { transform: [{ translateX: xPos }] }
+            ]}
+            onTouchStart={slideClosed}
          >
             {
                selectedBookData && modalVisible &&
@@ -104,5 +103,12 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       padding: 20,
    },
-
+   modalContainer: {
+      position: 'absolute',
+      top: 100,
+      left: Dimensions.get('window').width * -1,
+      backgroundColor: 'white',
+      width: '100%',
+      height: "100%"
+   }
 });

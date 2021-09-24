@@ -14,7 +14,10 @@ const BookCard = (props: BookCardProps) => {
    const volumeInfo = props.data.volumeInfo
 
    return (
-      <View style={styles.container}>
+      <View
+         style={styles.container}
+      
+      >
          {
             <TouchableHighlight
                onPress={(event: GestureResponderEvent) => props.onPress(props.data)}
@@ -33,6 +36,7 @@ const styles = StyleSheet.create({
    container: {
       width: '50%',
       display: 'flex',
+      borderRadius: 10,
    },
    card: {
       borderRadius: 4,
@@ -43,7 +47,6 @@ const styles = StyleSheet.create({
       textAlign: "center",
    },
    image: {
-      borderRadius: 10,
       width: 160,
       height: 200,
    },

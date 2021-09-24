@@ -8,8 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
-import { Input } from '@ui-kitten/components'
+import { ColorSchemeName, NativeSyntheticEvent, TextInput, TextInputFocusEventData } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -62,7 +61,7 @@ function BottomTabNavigator() {
 
 
   const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    
+    console.log("Input focused")
   }
 
   return (
@@ -78,23 +77,10 @@ function BottomTabNavigator() {
           title: 'All Books',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
-            <Input 
+            <TextInput 
               placeholder={"Search"}
               onFocus={handleFocus}
             />
-
-            // <Pressable
-            //   onPress={() => navigation.navigate('Modal')}
-            //   style={({ pressed }) => ({
-            //     opacity: pressed ? 0.5 : 1,
-            //   })}>
-            //   <FontAwesome
-            //     name="search"
-            //     size={25}
-            //     color={Colors[colorScheme].text}
-            //     style={{ marginRight: 15 }}
-            //   />
-            // </Pressable>
           ),
         })}
       />
