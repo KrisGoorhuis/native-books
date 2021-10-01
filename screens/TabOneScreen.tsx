@@ -1,14 +1,38 @@
 import * as React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import BookScroll from '../components/BookScroll/BookScroll'
-
-import { Text, View } from '../components/Themed'
+import { Appbar } from 'react-native-paper';
+import { View } from '../components/Themed'
 import { RootTabScreenProps } from '../types'
+import { AppBar } from '@material-ui/core';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
+  const [search, setSearch] = React.useState<string>("")
+
+  const updateSearch = () => {
+    
+  }
+
+
+  const handleSearch = () => {
+    
+  }
+  
+  const _handleMore = () => {
+    
+  }
   return (
     <View style={styles.container}>
+      <Appbar.Header>
+        {/* <Appbar.BackAction onPress={_goBack} /> */}
+        <Appbar.Content title="Title" subtitle="Subtitle" />
+        <Appbar.Action icon="magnify" onPress={handleSearch} />
+        <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
+      </Appbar.Header>
       <BookScroll />
       {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>

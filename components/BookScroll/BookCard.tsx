@@ -14,19 +14,13 @@ const BookCard = (props: BookCardProps) => {
    const volumeInfo = props.data.volumeInfo
 
    return (
-      <View
+      <TouchableHighlight
          style={styles.container}
-      
+         onPress={(event: GestureResponderEvent) => props.onPress(props.data)}
       >
-         {
-            <TouchableHighlight
-               onPress={(event: GestureResponderEvent) => props.onPress(props.data)}
-            >
-               {/* <Text style={{color: 'black'}}>{volumeInfo.title}</Text> */}
-               <Image style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail }}></Image>
-            </TouchableHighlight>
-         }
-      </View>
+         {/* <Text style={{color: 'black'}}>{volumeInfo.title}</Text> */}
+         <Image style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail }}></Image>
+      </TouchableHighlight>
    )
 }
 
@@ -37,6 +31,7 @@ const styles = StyleSheet.create({
       width: '50%',
       display: 'flex',
       borderRadius: 10,
+      alignItems: 'center'
    },
    card: {
       borderRadius: 4,

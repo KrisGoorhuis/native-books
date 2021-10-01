@@ -57,7 +57,6 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const inputRef = React.createRef()
 
 
   const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -75,13 +74,8 @@ function BottomTabNavigator() {
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'All Books',
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <TextInput 
-              placeholder={"Search"}
-              onFocus={handleFocus}
-            />
-          ),
         })}
       />
       <BottomTab.Screen
