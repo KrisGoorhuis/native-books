@@ -22,6 +22,8 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import { useDispatch } from 'react-redux';
+import { retrieveBookData } from '../actions/bookData/bookData';
 
 
 
@@ -59,52 +61,79 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
+const contractedSearchWidth = 185
+const expandedSearchWidth = 250
+
+
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const [searchQuery, setSearchQuery] = React.useState<string>("art")
-  const [searchWidth, setSearchWidth] = React.useState<number>(50)
+  const [searchQuery, setSearchQuery] = React.useState<string>("")
+  const [searchExpanded, setSearchExpanded] = React.useState<boolean>(false)
 
-  const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
-    console.log("Input focused")
+  const searchWidth = useSharedValue(contractedSearchWidth)
+
+  const dispatch = useDispatch()
+
+
+  const onChangeSearch = (text: string) => {
+    setSearchQuery(text)
   }
 
-  const onChangeSearch = () => {
+  const handleOnSubmit = () => {
+    dispatch(retrieveBookData(searchQuery))
+  }
 
+  const handleOnFocus = () => {
+    setSearchExpanded(true)
+    searchWidth.value = expandedSearchWidth
+  }
+
+  const handleEndEditing = () => {
+    setSearchExpanded(false)
+    searchWidth.value = contractedSearchWidth
   }
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      width: withSpring(searchWidth)
+      width: withSpring(searchWidth.value)
     }
   })
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Explore"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
+        name="Explore"
         component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'All Books',
+        options={({ navigation }: RootTabScreenProps<'Explore'>) => ({
+          title: 'Explore',
           // headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => <Searchbar
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          headerRight: () => 
+          <Animated.View              
             style={animatedStyles}
-            placeholder="Search"
-            onChangeText={onChangeSearch}
-            value={searchQuery}
-          />
+          >
+            <Searchbar
+              style={styles.scrollBar}
+              placeholder={"Search"}
+              onChangeText={onChangeSearch}
+              value={searchQuery}
+              onSubmitEditing={handleOnSubmit}
+              onFocus={handleOnFocus}
+              onEndEditing={handleEndEditing}
+            />
+          </Animated.View>
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
+        name="Library"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'My Books',
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -120,3 +149,10 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+
+
+const styles = StyleSheet.create({
+  scrollBar: {
+    marginRight: 10,
+  }
+});

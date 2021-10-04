@@ -13,7 +13,7 @@ import { BookData } from '../../model/BookData'
 import { API_KEY } from '@env'
 
 
-export const retrieveBookData = (): StandardThunk => (dispatch) => {
+export const retrieveBookData = (searchTerm?: string): StandardThunk => (dispatch) => {
    dispatch(setRetrievingBookData(true))
    dispatch(setFailedRetrievingBookData(false))
 
@@ -24,7 +24,7 @@ export const retrieveBookData = (): StandardThunk => (dispatch) => {
    axios.get<BooksSuccess>(baseUrl + 'volumes', {
       params: {
          key: API_KEY,
-         q: 'landscape'
+         q: searchTerm || 'landscape'
       }
    })
       .then((response) => {
@@ -32,7 +32,6 @@ export const retrieveBookData = (): StandardThunk => (dispatch) => {
       })
       .catch((error: AxiosError) => {
          // TODO: error handling
-         // console.log(error)
          dispatch(setFailedRetrievingBookData(true))
       })
       .then(() => {

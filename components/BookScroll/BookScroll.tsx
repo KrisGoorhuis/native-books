@@ -1,65 +1,26 @@
 import React from 'react'
-import { View, Modal, Animated, Dimensions } from 'react-native'
+import { View, Dimensions } from 'react-native'
 import BookCard from './BookCard'
-import useLoadBookData from '../../hooks/useLoadBookData'
 import { BookData } from '../../model/BookData'
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler'
-import BookModal from './BookModal'
 
 
-export default function BookScroll() {
-   const data = useLoadBookData()
-   const [selectedBookData, setSelectedBookData] = React.useState<BookData | null>(null)
-   const [modalVisible, setModalVisible] = React.useState<boolean>(false)
-   const [xPos, setXPos] = React.useState<any>(new Animated.Value(0))
+interface BookScrollProps {
+   data: BookData[]
+   handleBookModalOpen: (data: BookData) => void
+}
 
-   if (!data) {
-      // return <Spinner />
-   }
-
-   if (data.bookData) {
-      // console.log(data.bookData.length)
-   }
-
-   const myCallback = () => {
-      console.log("Success!")
-   }
-
-   const slideOpen = () => {
-      console.log("sliding")
-      Animated.spring(xPos, {
-         toValue: new Animated.Value(Dimensions.get('window').width),
-         useNativeDriver: true,
-      }).start(() => myCallback)
-   }
-
-   const slideClosed = () => {
-      Animated.spring(xPos, {
-         toValue: new Animated.Value(0),
-         useNativeDriver: true,
-      }).start(({ finished }) => {
-         console.log("finished")
-         setModalVisible(false)
-      })
-   }
-
-   const handleBookModalOpen = (data: BookData) => {
-      setSelectedBookData(data)
-      setModalVisible(true)
-      slideOpen()
-   }
-
+export default function BookScroll(props: BookScrollProps) {
 
    return (
       <View>
          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.scrollContainer}>
                {
-                  data.bookData &&
-                  data.bookData.map((bookData: BookData, i: number) => {
+                  props.data.map((bookData: BookData, i: number) => {
                      return <BookCard
-                        onPress={handleBookModalOpen}
+                        onPress={props.handleBookModalOpen}
                         key={i}
                         data={bookData}
                      />
@@ -67,20 +28,6 @@ export default function BookScroll() {
                }
             </View>
          </ScrollView>
-
-         <Animated.View
-            style={[
-               styles.modalContainer,
-               { transform: [{ translateX: xPos }] }
-            ]}
-            onTouchStart={slideClosed}
-         >
-            {
-               selectedBookData && modalVisible &&
-               <BookModal data={selectedBookData} />
-            }
-         </Animated.View>
-
       </View>
    )
 }
@@ -96,7 +43,7 @@ const styles = StyleSheet.create({
    },
    modalContainer: {
       position: 'absolute',
-      top: 100,
+      // top: 100,
       left: Dimensions.get('window').width * -1,
       backgroundColor: 'white',
       width: '100%',

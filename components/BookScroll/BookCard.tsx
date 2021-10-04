@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
       width: '50%',
       display: 'flex',
       alignItems: 'center',
-      marginBottom: 20
+      marginBottom: 10
    },
    card: {
       borderRadius: 4,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
    },
    image: {
       width: 160,
-      height: 200,
-      borderRadius: 10,
+      height: 250,
+      borderRadius: 5,
    },
 });
