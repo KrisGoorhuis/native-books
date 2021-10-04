@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, GestureResponderEvent, TouchableHighlight } from 'react-native'
+import { GestureResponderEvent, TouchableHighlight } from 'react-native'
 import { BookData } from '../../model/BookData'
 import { StyleSheet, Image } from 'react-native';
 
@@ -15,11 +15,11 @@ const BookCard = (props: BookCardProps) => {
 
    return (
       <TouchableHighlight
+         underlayColor='none'
          style={styles.container}
          onPress={(event: GestureResponderEvent) => props.onPress(props.data)}
       >
-         {/* <Text style={{color: 'black'}}>{volumeInfo.title}</Text> */}
-         <Image style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail }}></Image>
+         <Image resizeMode="contain" style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail }}></Image>
       </TouchableHighlight>
    )
 }
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
    container: {
       width: '50%',
       display: 'flex',
-      borderRadius: 10,
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom: 20
    },
    card: {
       borderRadius: 4,
@@ -44,5 +44,6 @@ const styles = StyleSheet.create({
    image: {
       width: 160,
       height: 200,
+      borderRadius: 10,
    },
 });

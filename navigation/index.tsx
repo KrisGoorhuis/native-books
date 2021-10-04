@@ -8,7 +8,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, NativeSyntheticEvent, TextInput, TextInputFocusEventData } from 'react-native';
+import { ColorSchemeName, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
+import { Searchbar } from 'react-native-paper';
+import Animated from 'react-native-reanimated';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -57,11 +59,17 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
+  const [searchQuery, setSearchQuery] = React.useState<string>("art")
+  const width = new Animated.Value(0)
 
   const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     console.log("Input focused")
   }
+
+  const onChangeSearch = () => {
+
+  }
+
 
   return (
     <BottomTab.Navigator
@@ -74,8 +82,13 @@ function BottomTabNavigator() {
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'All Books',
-          headerShown: false,
+          // headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerRight: () => <Searchbar
+            placeholder="Search"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+          />
         })}
       />
       <BottomTab.Screen

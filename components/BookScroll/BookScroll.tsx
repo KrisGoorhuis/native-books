@@ -14,13 +14,6 @@ export default function BookScroll() {
    const [modalVisible, setModalVisible] = React.useState<boolean>(false)
    const [xPos, setXPos] = React.useState<any>(new Animated.Value(0))
 
-   // const slideAnim = React.useRef(new Animated.Value(0)).current
-
-
-   // console.log("Dimensions")
-   // console.log(Dimensions.get('window'))
-   // console.log(Dimensions.get('screen'))
-
    if (!data) {
       // return <Spinner />
    }
@@ -55,8 +48,6 @@ export default function BookScroll() {
       setSelectedBookData(data)
       setModalVisible(true)
       slideOpen()
-      console.log("data.volumeInfo")
-      console.log(data.volumeInfo)
    }
 
 

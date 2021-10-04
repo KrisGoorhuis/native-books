@@ -17,7 +17,6 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     
   }
 
-
   const handleSearch = () => {
     
   }
@@ -25,15 +24,19 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const _handleMore = () => {
     
   }
+
+//   <Appbar.Header>
+//   {/* <Appbar.BackAction onPress={_goBack} /> */}
+//   <Appbar.Content title="Title" subtitle="Subtitle" />
+//   <Appbar.Action icon="magnify" onPress={handleSearch} />
+//   <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
+// </Appbar.Header>
+
+  
   return (
     <View style={styles.container}>
-      <Appbar.Header>
-        {/* <Appbar.BackAction onPress={_goBack} /> */}
-        <Appbar.Content title="Title" subtitle="Subtitle" />
-        <Appbar.Action icon="magnify" onPress={handleSearch} />
-        <Appbar.Action icon="dots-vertical" onPress={_handleMore} />
-      </Appbar.Header>
-      <BookScroll />
+      
+    
       {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   )
