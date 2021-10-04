@@ -10,7 +10,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import Animated from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { StyleSheet } from 'react-native';
+
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -60,7 +62,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const [searchQuery, setSearchQuery] = React.useState<string>("art")
-  const width = new Animated.Value(0)
+  const [searchWidth, setSearchWidth] = React.useState<number>(50)
 
   const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     console.log("Input focused")
@@ -70,6 +72,11 @@ function BottomTabNavigator() {
 
   }
 
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      width: withSpring(searchWidth)
+    }
+  })
 
   return (
     <BottomTab.Navigator
@@ -85,6 +92,7 @@ function BottomTabNavigator() {
           // headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => <Searchbar
+            style={animatedStyles}
             placeholder="Search"
             onChangeText={onChangeSearch}
             value={searchQuery}

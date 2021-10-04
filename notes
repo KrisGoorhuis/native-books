@@ -9,4 +9,14 @@ style accepts an array of objects
 
 
 
-    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+
+    Awesome stuff! Do you listen for the scroll event for the resizing of the Messages title?
+
+permalinkembedsavegive award
+
+[–]Bejitarian
+ 
+[S] 10 points 6 months ago 
+Yes and then interpolate the offset of the y axis to change the font size
+
+permalinkembedsaveparentgive award
