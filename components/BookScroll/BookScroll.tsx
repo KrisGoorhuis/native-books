@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Dimensions } from 'react-native'
 import BookCard from './BookCard'
 import { BookData } from '../../model/BookData'
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
 

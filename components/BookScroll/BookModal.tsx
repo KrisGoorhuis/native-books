@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, Linking, Alert, Pressable } from 'react-native'
 import { BookData } from '../../model/BookData'
 import { MaterialIcons } from '@expo/vector-icons'
-import { Appbar, Button, Menu } from 'react-native-paper'
+import { Appbar, Button, Menu, Snackbar } from 'react-native-paper'
 import { addToLibrary, removeFromLibrary } from '../../redux/slices/library'
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from '../../redux'
@@ -16,6 +16,8 @@ interface BookModalProps {
 const BookModal = (props: BookModalProps) => {
    const volumeInfo = props.data.volumeInfo
    const [menuOpen, setMenuOpen] = React.useState<boolean>(false)
+   const [snackbarVisible, setSnackbarVisible] = React.useState<boolean>(false)
+   const [snackbarText, setSnackbarText] = React.useState<string>("")
 
    const dispatch = useDispatch()
    const bookLibrary = useSelector((state: State) => state.library.library)
@@ -27,34 +29,43 @@ const BookModal = (props: BookModalProps) => {
       const supported = await Linking.canOpenURL(volumeInfo.infoLink);
 
       if (supported) {
-         await Linking.openURL(volumeInfo.infoLink);
+         await Linking.openURL(volumeInfo.infoLink)
       } else {
-         Alert.alert(`The machine doesn't know how to open this URL: ${volumeInfo.infoLink}`);
+         Alert.alert(`The machine doesn't know how to open this URL: ${volumeInfo.infoLink}`)
       }
    }
 
    const handleAudiobookLink = async () => {
-      Alert.alert(`This link is fake!`);
+      Alert.alert(`This link is fake!`)
    }
 
    const handleToggleLibrary = () => {
+
       if (isInLibrary) {
+         setSnackbarText("Removed from library")
+         setSnackbarVisible(true)
          dispatch(removeFromLibrary(props.data.id))
       }
       else {
+         setSnackbarText("Added to library")
+         setSnackbarVisible(true)
          dispatch(addToLibrary(props.data))
       }
    }
 
-   const openMenu = () => setMenuOpen(true);
-   const closeMenu = () => setMenuOpen(false);
+   const openMenu = () => setMenuOpen(true)
+   const closeMenu = () => setMenuOpen(false)
+   const onDismissSnackBar = () => setSnackbarVisible(false)
 
 
-   console.log("isInLibrary")
-   console.log(isInLibrary)
 
-   console.log("bookLibrary")
-   console.log(bookLibrary)
+   // console.log("isInLibrary")
+   // console.log(isInLibrary)
+
+   // console.log("bookLibrary")
+   // console.log(bookLibrary)
+
+
 
    return (
       <View>
@@ -88,7 +99,14 @@ const BookModal = (props: BookModalProps) => {
 
             <View>
                <View style={styles.imageContainer}>
-                  <Image resizeMode="contain" style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail }} />
+                  {
+                     volumeInfo.imageLinks
+                        ? <Image resizeMode="contain" style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail }} />
+                        : <View style={styles.noImage}>
+                           <Text>{volumeInfo.title}</Text>
+                           <Text>(no image)</Text>
+                        </View>
+                  }
                   <View style={styles.shadow}></View>
                </View>
             </View>
@@ -113,6 +131,14 @@ const BookModal = (props: BookModalProps) => {
 
             <Text numberOfLines={5}>{volumeInfo.description}</Text>
          </View>
+
+         <Snackbar
+            visible={snackbarVisible}
+            onDismiss={onDismissSnackBar}
+            duration={2000}
+         >
+            {snackbarText}
+         </Snackbar>
 
       </View>
    )
@@ -161,7 +187,18 @@ const styles = StyleSheet.create({
       transform: [{ scale: 1 }],
       left: 50,
       zIndex: 3,
-      position: 'relative'
+      position: 'relative',
+   },
+   noImage: {
+      ...imageDimensions,
+      borderRadius: 5,
+      transform: [{ scale: 1 }],
+      zIndex: 3,
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      left: 10,
    },
    infoContainer: {
       backgroundColor: '#fc5324',
@@ -205,7 +242,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       backgroundColor: 'orange',
       color: 'white',
-      width: 120,
+      width: 70,
       borderRadius: 5,
       height: buttonHeight,
       paddingLeft: 5,

@@ -28,13 +28,13 @@ import { retrieveBookData } from '../actions/bookData/bookData';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
-  );
+   return (
+      <NavigationContainer
+         linking={LinkingConfiguration}
+         theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+         <RootNavigator />
+      </NavigationContainer>
+   );
 }
 
 /**
@@ -44,15 +44,15 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
-    </Stack.Navigator>
-  );
+   return (
+      <Stack.Navigator>
+         <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+         <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+         <Stack.Group screenOptions={{ presentation: 'modal' }}>
+            <Stack.Screen name="Modal" component={ModalScreen} />
+         </Stack.Group>
+      </Stack.Navigator>
+   );
 }
 
 /**
@@ -66,93 +66,93 @@ const expandedSearchWidth = 250
 
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-  const [searchQuery, setSearchQuery] = React.useState<string>("")
-  const [searchExpanded, setSearchExpanded] = React.useState<boolean>(false)
+   const colorScheme = useColorScheme();
+   const [searchQuery, setSearchQuery] = React.useState<string>("")
+   const [searchExpanded, setSearchExpanded] = React.useState<boolean>(false)
 
-  const searchWidth = useSharedValue(contractedSearchWidth)
+   const searchWidth = useSharedValue(contractedSearchWidth)
 
-  const dispatch = useDispatch()
+   const dispatch = useDispatch()
 
 
-  const onChangeSearch = (text: string) => {
-    setSearchQuery(text)
-  }
+   const onChangeSearch = (text: string) => {
+      setSearchQuery(text)
+   } 
 
-  const handleOnSubmit = () => {
-    dispatch(retrieveBookData(searchQuery))
-  }
+   const handleOnSubmit = () => {
+      dispatch(retrieveBookData(searchQuery))
+   }
 
-  const handleOnFocus = () => {
-    setSearchExpanded(true)
-    searchWidth.value = expandedSearchWidth
-  }
+   const handleOnFocus = () => {
+      setSearchExpanded(true)
+      searchWidth.value = expandedSearchWidth
+   }
 
-  const handleEndEditing = () => {
-    setSearchExpanded(false)
-    searchWidth.value = contractedSearchWidth
-  }
+   const handleEndEditing = () => {
+      setSearchExpanded(false)
+      searchWidth.value = contractedSearchWidth
+   }
 
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      width: withSpring(searchWidth.value)
-    }
-  })
+   const animatedStyles = useAnimatedStyle(() => {
+      return {
+         width: withSpring(searchWidth.value)
+      }
+   })
 
-  return (
-    <BottomTab.Navigator
-      initialRouteName="Explore"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="Explore"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'Explore'>) => ({
-          title: 'Explore',
-          // headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
-          headerRight: () => 
-          <Animated.View              
-            style={animatedStyles}
-          >
-            <Searchbar
-              style={styles.scrollBar}
-              placeholder={"Search"}
-              onChangeText={onChangeSearch}
-              value={searchQuery}
-              onSubmitEditing={handleOnSubmit}
-              onFocus={handleOnFocus}
-              onEndEditing={handleEndEditing}
-            />
-          </Animated.View>
-        })}
-      />
-      <BottomTab.Screen
-        name="Library"
-        component={TabTwoScreen}
-        options={{
-          title: 'My Books',
-          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
+   return (
+      <BottomTab.Navigator
+         initialRouteName="Explore"
+         screenOptions={{
+            tabBarActiveTintColor: Colors[colorScheme].tint,
+         }}>
+         <BottomTab.Screen
+            name="Explore"
+            component={TabOneScreen}
+            options={({ navigation }: RootTabScreenProps<'Explore'>) => ({
+               title: 'Explore',
+               // headerShown: false,
+               tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+               headerRight: () =>
+                  <Animated.View
+                     style={animatedStyles}
+                  >
+                     <Searchbar
+                        style={styles.scrollBar}
+                        placeholder={"Search"}
+                        onChangeText={onChangeSearch}
+                        value={searchQuery}
+                        onSubmitEditing={handleOnSubmit}
+                        onFocus={handleOnFocus}
+                        onEndEditing={handleEndEditing}
+                     />
+                  </Animated.View>
+            })}
+         />
+         <BottomTab.Screen
+            name="Library"
+            component={TabTwoScreen}
+            options={{
+               title: 'My Library',
+               tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
+            }}
+         />
+      </BottomTab.Navigator>
+   );
 }
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
+   name: React.ComponentProps<typeof FontAwesome>['name'];
+   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 
 const styles = StyleSheet.create({
-  scrollBar: {
-    marginRight: 10,
-  }
+   scrollBar: {
+      marginRight: 10,
+   }
 });

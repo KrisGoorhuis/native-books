@@ -1,7 +1,7 @@
 import React from 'react'
 import { GestureResponderEvent, TouchableHighlight } from 'react-native'
 import { BookData } from '../../model/BookData'
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 
 
 
@@ -13,13 +13,49 @@ interface BookCardProps {
 const BookCard = (props: BookCardProps) => {
    const volumeInfo = props.data.volumeInfo
 
+
+
+
    return (
       <TouchableHighlight
          underlayColor='none'
          style={styles.container}
-         onPress={(event: GestureResponderEvent) => props.onPress(props.data)}
+         onPress={(event: GestureResponderEvent) => {
+            console.log("props.data")
+            console.log(props.data)
+            props.onPress(props.data)
+         }}
       >
-         <Image resizeMode="contain" style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail }}></Image>
+         <View>
+            { 
+               // console.log("volumeInfo.imageLinks")
+            }
+            {
+               // console.log(volumeInfo)
+            }
+              { 
+               console.log("volumeInfo.imageLinks")
+            }
+            {
+               console.log(volumeInfo.imageLinks)
+            }
+                          { 
+               // console.log("volumeInfo.imageLinks.thumbnail")
+            }
+            {
+               // console.log(volumeInfo.imageLinks.thumbnail)
+            }
+            {
+               volumeInfo.imageLinks && volumeInfo.imageLinks.thumbnail
+                  ? <Image resizeMode="contain" style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail || "" }}></Image>
+                  : <View style={styles.noImage}>
+                        <Text>{volumeInfo.title}</Text>
+                        <Text>(no image)</Text>
+                     </View>
+            } 
+
+            </View>
+
       </TouchableHighlight>
    )
 }
@@ -45,5 +81,18 @@ const styles = StyleSheet.create({
       width: 160,
       height: 250,
       borderRadius: 5,
+   },
+   noImage: {
+      height: 100,
+      width: 160,
+      borderRadius: 5,
+      transform: [{ scale: 1 }],
+      zIndex: 3,
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderColor: 'gray',
+      borderWidth: 1,
    },
 });
