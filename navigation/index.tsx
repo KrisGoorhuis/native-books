@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 import { StyleSheet } from 'react-native';
@@ -77,7 +77,7 @@ function BottomTabNavigator() {
 
    const onChangeSearch = (text: string) => {
       setSearchQuery(text)
-   } 
+   }
 
    const handleOnSubmit = () => {
       dispatch(retrieveBookData(searchQuery))

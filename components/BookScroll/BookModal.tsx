@@ -22,8 +22,7 @@ const BookModal = (props: BookModalProps) => {
    const dispatch = useDispatch()
    const bookLibrary = useSelector((state: State) => state.library.library)
    const isInLibrary = bookLibrary.some((book: BookData) => book.id === props.data.id)
-   console.log("props.data.id")
-   console.log(props.data.id)
+
 
    const handleWebLink = async () => {
       const supported = await Linking.canOpenURL(volumeInfo.infoLink);
@@ -56,14 +55,6 @@ const BookModal = (props: BookModalProps) => {
    const openMenu = () => setMenuOpen(true)
    const closeMenu = () => setMenuOpen(false)
    const onDismissSnackBar = () => setSnackbarVisible(false)
-
-
-
-   // console.log("isInLibrary")
-   // console.log(isInLibrary)
-
-   // console.log("bookLibrary")
-   // console.log(bookLibrary)
 
 
 

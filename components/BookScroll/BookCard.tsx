@@ -14,8 +14,6 @@ const BookCard = (props: BookCardProps) => {
    const volumeInfo = props.data.volumeInfo
 
 
-
-
    return (
       <TouchableHighlight
          underlayColor='none'
@@ -27,34 +25,17 @@ const BookCard = (props: BookCardProps) => {
          }}
       >
          <View>
-            { 
-               // console.log("volumeInfo.imageLinks")
-            }
-            {
-               // console.log(volumeInfo)
-            }
-              { 
-               console.log("volumeInfo.imageLinks")
-            }
-            {
-               console.log(volumeInfo.imageLinks)
-            }
-                          { 
-               // console.log("volumeInfo.imageLinks.thumbnail")
-            }
-            {
-               // console.log(volumeInfo.imageLinks.thumbnail)
-            }
+
             {
                volumeInfo.imageLinks && volumeInfo.imageLinks.thumbnail
                   ? <Image resizeMode="contain" style={styles.image} source={{ uri: volumeInfo.imageLinks.thumbnail || "" }}></Image>
                   : <View style={styles.noImage}>
-                        <Text>{volumeInfo.title}</Text>
-                        <Text>(no image)</Text>
-                     </View>
-            } 
+                     <Text>{volumeInfo.title}</Text>
+                     <Text>(no image)</Text>
+                  </View>
+            }
 
-            </View>
+         </View>
 
       </TouchableHighlight>
    )
