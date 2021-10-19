@@ -10,7 +10,6 @@ import BookScroll from '../BookScroll/BookScroll'
 
 const xPos = new Animated.Value(0) // Very not DRY. Fix it in the next project
 
-
 export default function Library() {
    const bookLibrary = useSelector((state: State) => state.library.library)
    const [selectedBookData, setSelectedBookData] = React.useState<BookData | null>(null)
